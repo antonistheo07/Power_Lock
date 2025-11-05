@@ -1,8 +1,3 @@
-"""
-ui/components/base_crud_view.py
-Modernized base class for all CRUD views with ttkbootstrap styling
-"""
-
 import ttkbootstrap as ttk
 from ttkbootstrap.constants import *
 from tkinter import messagebox
@@ -11,7 +6,7 @@ from typing import List, Optional
 
 
 class BaseView(ttk.Frame, ABC):
-    """Modern base class for all CRUD views"""
+    """base class for all CRUD views"""
 
     def __init__(self, parent, repository, model_class):
         super().__init__(parent)
