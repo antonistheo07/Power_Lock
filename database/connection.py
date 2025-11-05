@@ -16,7 +16,7 @@ class DatabaseConnection:
     @contextmanager
     def get_connection(self):
         conn = sqlite3.connect(DB_FILE, detect_types=sqlite3.PARSE_DECLTYPES)
-        conn.row_factory = dict_factory   # <-- rows are plain dicts
+        conn.row_factory = dict_factory   
         try:
             yield conn
             conn.commit()
