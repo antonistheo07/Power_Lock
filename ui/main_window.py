@@ -1,8 +1,3 @@
-"""
-main_window.py - PART 3: Complete with Menu Bar
-Testing: Full functionality with all menus
-"""
-
 import ttkbootstrap as ttk
 from ttkbootstrap.constants import *
 from tkinter import Menu, messagebox, filedialog, Text
@@ -153,7 +148,7 @@ class MainWindow(ttk.Window):
                 f"Failed to create container:\n{e}"
             )
     
-    # ========== VIEW MANAGEMENT ==========
+    # VIEW MANAGEMENT 
     
     def on_view_change(self, view_name):
         """Handle navigation clicks - load real views"""
@@ -227,37 +222,36 @@ class MainWindow(ttk.Window):
             logger.error(f"Export failed: {e}")
             messagebox.showerror("Export Error", f"Failed to export data:\n{e}")
     
-    # ========== FILE MENU ACTIONS ==========
+    # FILE MENU ACTIONS 
     
-    def _generate_report(self):
-        """Generate comprehensive report."""
-        try:
-            from utils.exports import generate_report
+    #def _generate_report(self):
+       # """Generate comprehensive report."""
+       # try:
+           # from utils.exports import generate_report
             
             # Gather statistics
-            stats = self._get_statistics()
+            #stats = self._get_statistics()
             
-            report_data = {
-                "Report Information": {
-                    "Generated": datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
-                    "Application": APP_TITLE,
-                    "Database": str(DB_FILE)
-                },
-                "System Statistics": stats
-            }
+           # report_data = {
+               #    "Generated": datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
+                 #   "Application": APP_TITLE,
+                #    "Database": str(DB_FILE)
+              #  },
+             #   "System Statistics": stats
+           # }
             
-            filename = f"report_{datetime.now().strftime('%Y%m%d_%H%M%S')}.txt"
-            generate_report(report_data, filename)
+           # filename = f"report_{datetime.now().strftime('%Y%m%d_%H%M%S')}.txt"
+          #  generate_report(report_data, filename)
             
-            messagebox.showinfo(
-                "Success",
-                f"Report generated successfully!\n\nSaved as: {filename}"
-            )
-            logger.info(f"Report generated: {filename}")
+           # messagebox.showinfo(
+             #   "Success",
+              #  f"Report generated successfully!\n\nSaved as: {filename}"
+           # )
+           # logger.info(f"Report generated: {filename}")
             
-        except Exception as e:
-            logger.error(f"Report generation failed: {e}")
-            messagebox.showerror("Error", f"Failed to generate report:\n{e}")
+       # except Exception as e:
+           # logger.error(f"Report generation failed: {e}")
+            #messagebox.showerror("Error", f"Failed to generate report:\n{e}")
     
     def _backup_database(self):
         """Backup database to file."""
@@ -310,7 +304,7 @@ class MainWindow(ttk.Window):
                 logger.error(f"Restore failed: {e}")
                 messagebox.showerror("Restore Error", f"Failed to restore database:\n{e}")
     
-    # ========== VIEW MENU ACTIONS ==========
+    # VIEW MENU ACTIONS 
     
     def _show_dashboard(self):
         """Show dashboard with statistics."""
@@ -373,7 +367,7 @@ class MainWindow(ttk.Window):
         
         self._center_dialog(dashboard)
     
-    # ========== TOOLS MENU ACTIONS ==========  
+    #  TOOLS MENU ACTIONS   
     def _show_pending_orders(self):
         """Show pending orders."""
         try:
@@ -500,7 +494,7 @@ class MainWindow(ttk.Window):
             "For now, you can edit config/settings.py directly."
         )
     
-    # ========== HELP MENU ACTIONS ==========
+    #  HELP MENU ACTIONS 
     
     def _show_help(self):
         """Show user guide."""
@@ -624,18 +618,11 @@ tracking customers, inventory, and orders.
 
 ✨ Features:
 • Customer Management
-• Inventory Tracking with Low Stock Alerts
+• Inventory Tracking
 • Order Processing with Status History
-• Export & Reporting
 • Database Backup/Restore
-• Dashboard & Statistics
-• Modern UI with ttkbootstrap
-
-🏗️ Architecture:
-• Repository Pattern
-• Clean Separation of Concerns
-• Modern UI Components
-• SQLite Database
+• Dashboard 
+• UI with ttkbootstrap
 
 Developed with Python & ttkbootstrap
 
@@ -644,7 +631,7 @@ Developed with Python & ttkbootstrap
         
         messagebox.showinfo("About", about_text)
     
-    # ========== HELPER METHODS ==========
+    # HELPER METHODS 
     
     def _get_statistics(self):
         """Get application statistics."""
