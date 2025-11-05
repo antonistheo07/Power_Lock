@@ -47,7 +47,6 @@ class FormDialog(tk.Toplevel):
         btn_frame = ttk.Frame(self, padding=(20, 0, 20, 20))
         btn_frame.pack(fill="x")
         
-        # Around line 40-42, change:
         ttk.Button(btn_frame, text=t["cancel"], command=self.on_cancel).pack(side="right", padx=5)
         ttk.Button(btn_frame, text=t["save"], command=self.on_save).pack(side="right")
 
@@ -106,7 +105,7 @@ class FormDialog(tk.Toplevel):
             
             # Check required
             if field.get('required', False) and not value:
-                field_label = field.get('label_gr', field['label'])  # Use Greek label if available
+                field_label = field.get('label_gr', field['label'])  
                 raise ValueError(f"{field['label']} is required")
             
             data[field['name']] = value
@@ -160,7 +159,6 @@ class DetailsDialog(tk.Toplevel):
         
         # Create label-value pairs
         for idx, (key, value) in enumerate(data.items()):
-            # Use translation if available, otherwise format the key
             if key in self.field_translations:
                 label = self.field_translations[key]
             elif key in t:
@@ -492,7 +490,7 @@ class OrderDetailsDialog(tk.Toplevel):
             
             for h in self.order['status_history']:
                 history_tree.insert("", "end", values=(
-                    h.get('changed_at', '')[:19],  # Remove microseconds
+                    h.get('changed_at', '')[:19],  
                     h.get('old_status', 'N/A'),
                     h.get('new_status', ''),
                     h.get('changed_by', 'System')
@@ -602,7 +600,7 @@ class OrderItemsDialog(tk.Toplevel):
         self.title("Add Order Items")
         self.result = None
         self.bolts = bolts
-        self.items = {}  # {bolt_name: quantity}
+        self.items = {}  
         
         self.transient(parent)
         self.grab_set()
@@ -709,7 +707,6 @@ class OrderItemsDialog(tk.Toplevel):
                 messagebox.showwarning("No Selection", "Please select a bolt.")
                 return
             
-            # Extract bolt name (remove stock info)
             bolt_name = selected.split(" (Stock:")[0]
             
             quantity_str = self.quantity_var.get().strip()
@@ -734,7 +731,7 @@ class OrderItemsDialog(tk.Toplevel):
                 self.items[bolt_name] = quantity
             
             self.refresh_items_list()
-            self.quantity_var.set("1")  # Reset quantity
+            self.quantity_var.set("1")  
             
         except Exception as e:
             messagebox.showerror("Error", f"Failed to add item:\n{e}")
