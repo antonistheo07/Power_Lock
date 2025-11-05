@@ -1,8 +1,3 @@
-"""
-ui/views/customer_view.py
-Modernized customer view with ttkbootstrap styling
-"""
-
 import ttkbootstrap as ttk
 from ttkbootstrap.constants import *
 from tkinter import messagebox
@@ -16,7 +11,7 @@ from utils.validators import validate_phone, ValidationError
 
 
 class CustomerView(BaseView):
-    """Modern customer management view"""
+    """customer management view"""
     
     def __init__(self, parent):
         repository = CustomerRepository()
@@ -42,10 +37,9 @@ class CustomerView(BaseView):
     
     def get_column_anchor(self, col: str) -> str:
         """Return anchor alignment for columns."""
-     # Center ID and Phone, keep Name left-aligned
         if col in ["id", "name", "phone"]:
             return CENTER
-        return W  # Left align name
+        return W  
     
     def get_form_fields(self, is_edit=False):
         """Define form fields for customer."""
@@ -56,9 +50,7 @@ class CustomerView(BaseView):
     
     def validate_customer_data(self, data):
         """Validate customer data before saving."""
-        phone = data.get('phone')  # Fixed: removed brackets, should be parentheses
-        # Only validate if phone is provided and not blank
-        
+        phone = data.get('phone')  
         try:
             validate_phone(phone)
         except ValidationError as e:
@@ -126,7 +118,6 @@ class CustomerView(BaseView):
 
     def refresh(self):
         """Refresh the table data - override to store ID in item."""
-        # Clear existing items
         for item in self.tree.get_children():
             self.tree.delete(item)
 
@@ -134,11 +125,9 @@ class CustomerView(BaseView):
             search_term = self.search_var.get().strip() if hasattr(self, 'search_var') else ""
             items = self.fetch_data(search_term)
 
-            # Insert items with ID as the iid
             for idx, item in enumerate(items):
                 values = self.format_row(item)
                 tag = 'evenrow' if idx % 2 == 0 else 'oddrow'
-                # Store the customer ID as the tree item identifier
                 self.tree.insert("", END, iid=str(item['id']), values=values, tags=(tag,))
 
         except Exception as e:
@@ -150,7 +139,6 @@ class CustomerView(BaseView):
         if not selection:
             return None
         try:
-            # The iid is the ID we stored during refresh
             return int(selection[0])
         except (ValueError, IndexError):
             return None
