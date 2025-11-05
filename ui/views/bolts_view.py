@@ -1,8 +1,3 @@
-"""
-ui/views/bolts_view.py
-Modernized bolts inventory view with ttkbootstrap styling
-"""
-
 import ttkbootstrap as ttk
 from ttkbootstrap.constants import *
 from tkinter import messagebox
@@ -17,10 +12,8 @@ from config.translation import GREEK as t
 
 
 class BoltsView(BaseView):
-    """Modern bolt inventory management view"""
     @staticmethod
     def _to_int(value, default=0):
-        """Safely convert values like '5' or None to int."""
         try:
             return int(value)
         except (TypeError, ValueError):
@@ -63,8 +56,8 @@ class BoltsView(BaseView):
         return self.repository.get_all()
     
     def format_row(self, item):
-        d = dict(item)                      # ensure dict-like
-        qty = self._to_int(d.get('quantity'), 0) # normalize for display
+        d = dict(item)                      
+        qty = self._to_int(d.get('quantity'), 0) 
         return (
             d.get('name'),
             d.get('type'),
@@ -128,7 +121,6 @@ class BoltsView(BaseView):
         def save_bolt(data):
             try:
                 self.validate_bolt_data(data)
-                # Set default min_stock_level if not provided
                 bolt = Bolt(**data)
                 self.repository.create(bolt)
                 messagebox.showinfo(t["success"], t["bolt_added"])
