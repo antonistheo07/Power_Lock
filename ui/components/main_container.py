@@ -27,7 +27,7 @@ class MainContainer(ttk.Frame):
         """Create left navigation sidebar"""
         self.sidebar = ttk.Frame(self, bootstyle="secondary", width=220)
         self.sidebar.pack(side=LEFT, fill=Y)
-        self.sidebar.pack_propagate(False)  # Maintain fixed width
+        self.sidebar.pack_propagate(False)  
         
         # App title/logo area
         title_frame = ttk.Frame(self.sidebar, bootstyle="secondary")
@@ -100,7 +100,6 @@ class MainContainer(ttk.Frame):
         
     def _create_content_area(self):
         """Create main content area where views will be loaded"""
-        # Content frame with padding
         self.content_frame = ttk.Frame(self, padding=20)
         self.content_frame.pack(side=LEFT, fill=BOTH, expand=YES)
         
