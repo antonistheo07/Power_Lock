@@ -9,7 +9,7 @@ class OrderRepository(BaseRepository):
     def get_table_name(self):
         return "orders"
     
-    # ========== CREATE OPERATIONS ==========
+    # CREATE OPERATIONS 
     
     def create(self, order: Order, items: List[OrderItem]) -> int:
         """
@@ -56,7 +56,7 @@ class OrderRepository(BaseRepository):
             
             return order_id
     
-    # ========== READ OPERATIONS ==========
+    #  READ OPERATIONS 
     
     def get_all_with_summary(self):
         """Get all orders with customer names and item counts."""
@@ -120,7 +120,7 @@ class OrderRepository(BaseRepository):
             
             return order_dict
     
-    # ========== UPDATE OPERATIONS ==========
+    # UPDATE OPERATIONS 
     
     def update_status(self, order_id: int, new_status: str, changed_by: str = "System"):
         """
@@ -141,8 +141,7 @@ class OrderRepository(BaseRepository):
                 raise ValueError(f"Order {order_id} not found")
             
             old_status = row['status']
-            
-            # Don't update if status is the same
+    
             if old_status == new_status:
                 return
             
@@ -184,7 +183,7 @@ class OrderRepository(BaseRepository):
             cursor.execute(query, (customer_id, order_id))
             return cursor.rowcount > 0
     
-    # ========== DELETE OPERATIONS ==========
+    # DELETE OPERATIONS 
     
     def delete(self, order_id: int):
         """
@@ -208,7 +207,7 @@ class OrderRepository(BaseRepository):
             cursor.execute("DELETE FROM orders WHERE id = ?", (order_id,))
             return cursor.rowcount > 0
     
-    # ========== SEARCH OPERATIONS ==========
+    #  SEARCH OPERATIONS 
     
     def search_by_customer_name(self, name: str):
         """Search orders by customer name (partial match)."""
@@ -281,7 +280,7 @@ class OrderRepository(BaseRepository):
             cursor.execute(query, (f"%{bolt_name}%",))
             return cursor.fetchall()
     
-    # ========== STATISTICS & REPORTING ==========
+    # STATISTICS & REPORTING 
     
     def get_statistics(self) -> Dict:
         """Get comprehensive order statistics."""
@@ -387,7 +386,7 @@ class OrderRepository(BaseRepository):
             cursor.execute(query, (start_date, end_date))
             return cursor.fetchall()
     
-    # ========== VALIDATION & HELPERS ==========
+    # VALIDATION & HELPERS 
     
     def can_delete_order(self, order_id: int) -> tuple[bool, str]:
         """
@@ -407,7 +406,6 @@ class OrderRepository(BaseRepository):
             
             status = row['status']
             
-            # Don't allow deleting shipped or delivered orders
             if status in ['shipped', 'delivered']:
                 return False, f"Cannot delete {status} orders"
             
