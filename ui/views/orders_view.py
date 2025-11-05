@@ -1,8 +1,3 @@
-"""
-ui/views/orders_view.py
-Modernized orders view with ttkbootstrap styling
-"""
-
 import ttkbootstrap as ttk
 from ttkbootstrap.constants import *
 from tkinter import messagebox, simpledialog
@@ -67,14 +62,13 @@ class OrdersView(BaseView):
     
     def format_row(self, item):
         """Format order for display."""
-        # Get item summary (first 2-3 items)
         items_summary = self._get_items_summary(item.get('id'))
         
         return (
             item['id'],
             item.get('customer_name', 'Unknown'),
             item.get('status', 'pending'),
-            item.get('order_date', '')[:16],  # Show date without seconds
+            item.get('order_date', '')[:16],  
             items_summary,
             item.get('total_items', 0)
         )
@@ -102,7 +96,6 @@ class OrdersView(BaseView):
             for idx, item in enumerate(items):
                 values = self.format_row(item)
                 
-                # Determine tags based on status
                 status = item.get('status', 'pending').lower()
                 if status in ['pending', 'approved', 'shipped', 'delivered', 'cancelled']:
                     tags = [status]
@@ -133,25 +126,20 @@ class OrdersView(BaseView):
     
     def on_add(self):
         """Create new order with customer selection and item entry."""
-        # Step 1: Select customer
         customer_id, customer_name = self._select_customer()
         if not customer_id:
             return
         
-        # Step 2: Select items using new dialog
         items_dict = self._select_order_items_dialog()
         if not items_dict:
             return
         
-        # Step 3: Get optional notes
         notes = simpledialog.askstring(
             "Order Notes",
             "Add notes for this order (optional):"
         )
         
-        # Step 4: Create the order
         try:
-            # Convert items dict to OrderItem objects with bolt IDs
             order_items = self._convert_items_to_order_items(items_dict)
             if not order_items:
                 return
@@ -166,7 +154,6 @@ class OrdersView(BaseView):
             
             order_id = self.repository.create(order, order_items)
             
-            # Show success message
             items_summary = ", ".join([f"{name} x{qty}" for name, qty in items_dict.items()])
             messagebox.showinfo(
                 "Success",
@@ -262,11 +249,9 @@ class OrdersView(BaseView):
             if qty <= 0:
                 raise ValueError(f"Quantity for '{name}' must be positive.")
             
-            # Aggregate by case-insensitive key
             key = name.lower()
             aggregated[key] = aggregated.get(key, 0) + qty
         
-        # Return with original casing (first occurrence)
         result = {}
         seen = set()
         for pair in pairs:
@@ -283,7 +268,6 @@ class OrdersView(BaseView):
         order_items = []
         
         for bolt_name, quantity in items_dict.items():
-            # Find bolt by name (case-insensitive)
             bolts = self.bolt_repo.find_by_name(bolt_name)
             
             if not bolts:
@@ -293,8 +277,7 @@ class OrdersView(BaseView):
                     "Please add it to inventory first."
                 )
                 return []
-            
-            # If multiple matches, use exact match or first one
+        
             bolt = None
             for b in bolts:
                 if b['name'].lower() == bolt_name.lower():
@@ -323,7 +306,6 @@ class OrdersView(BaseView):
             return
         
         try:
-            # Get current order
             order = self.repository.get_with_details(order_id)
             if not order:
                 messagebox.showerror("Error", "Order not found.")
@@ -331,7 +313,6 @@ class OrdersView(BaseView):
             
             current_status = order['status']
             
-            # Show status selection dialog
             dialog = StatusUpdateDialog(self, current_status, ORDER_STATUSES)
             self.wait_window(dialog)
             
@@ -339,10 +320,8 @@ class OrdersView(BaseView):
                 new_status = dialog.result['status']
                 notes = dialog.result.get('notes', '')
                 
-                # Update status
                 self.repository.update_status(order_id, new_status, "User")
                 
-                # Update notes if provided
                 if notes:
                     self.repository.update_notes(order_id, notes)
                 
@@ -407,7 +386,6 @@ class OrdersView(BaseView):
                     messagebox.showinfo("No Results", "No orders found matching your search.")
                     return
                 
-                # Show results in a list dialog
                 OrderListDialog(self, results, on_open=self._open_order_from_search)
                 
             except Exception as e:
