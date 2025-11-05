@@ -5,22 +5,17 @@ from pathlib import Path
 def get_base_dir():
     """Get the correct base directory"""
     if getattr(sys, 'frozen', False):
-        # Running as executable - use user directory
         return Path(os.path.expanduser('~')) / '.power_lock'
     else:
-        # Running as script - use project directory
         return Path(__file__).parent.parent
 
 def get_database_path():
     """Get the correct path for the database"""
     base_dir = get_base_dir()
-    
-    # Create directory if it doesn't exist
     base_dir.mkdir(parents=True, exist_ok=True)
     
     db_path = base_dir / "PLdatabase.db"
     
-    # Create database if it doesn't exist (first run)
     if not db_path.exists():
         _create_initial_database(db_path)
     
