@@ -1,9 +1,4 @@
-"""
-Greek translations for Power Lock app
-"""
-
 GREEK = {
-    # Common buttons
     "save": "Αποθήκευση",
     "cancel": "Ακύρωση",
     "delete": "Διαγραφή",
